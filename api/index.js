@@ -7,11 +7,10 @@ import userRouter from "./Routes/userRoute.js";
 import authRouter from "./Routes/authRoute.js";
 import cookieParser from 'cookie-parser';
 import listingRouter from './Routes/listingRoute.js';
+import path from 'path';
 
-const app= express();
-app.use(express.json());
 
-app.use(cookieParser());
+
 
 const DB =process.env.DATABASE;
 mongoose.connect(DB).then(() => {
@@ -22,6 +21,13 @@ mongoose.connect(DB).then(() => {
   }); 
 
 
+const __dirname = path.resolve();
+
+  const app= express();
+  app.use(express.json());
+  app.use(cookieParser());
+
+
 app.listen(4000, () =>{
     console.log('Server is running on port 4000')
 })
@@ -30,6 +36,12 @@ app.listen(4000, () =>{
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
 app.use('/api/listing', listingRouter)
+
+
+app.use(express.static(path.join(__dirname,'/client/dist')));
+app.get('*', (req, res) =>{
+    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+})
 
 //middleware 
 app.use((err, req, res, next) => {
