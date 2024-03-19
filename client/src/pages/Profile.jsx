@@ -231,7 +231,7 @@ function Profile() {
             </h1>
             {
               userListings.map((listing) => (
-                <div key={listing._id} className='border p-3 flex justify-between items-center gap-24'>
+                <div key={listing._id} className='border p-3 flex justify-between items-center gap-4'>
                   <Link to={`/listing/${listing._id}`}>
                     <img
                       src={listing.imageUrls[0]}
